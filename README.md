@@ -8,7 +8,7 @@ All variables should be declared before they are used. Declarations are done wit
 
 **Ex:**  new text myText;  new int myInt;  new char myChar; /\* This is a comment\*/
 
-`			  `/\* And two lines of code on one line is OK \*/
+/\* And two lines of code on one line is OK \*/
 
 **Assignment, Operations and Functions:**
 
@@ -16,15 +16,15 @@ All variables should be declared before they are used. Declarations are done wit
 
 **Ex:** 
 
-` `MyText := “Hello world”;
+  MyText := “Hello world”;
 
-` `myInt:=0;
+  myInt:=0;
 
-` `myChar := ‘X’;
+  myChar := ‘X’;
 
-` `myInt := 2 + yourInt;
+  myInt := 2 + yourInt;
 
-` `MyText:= FirstText+SecondText;
+  MyText:= FirstText+SecondText;
 
 - Subtracting a larger value from a smaller value generates an error message. Other than that Addition and subtraction on integers works just as expected.
 - Addition over text values results in concatenation of the two texts
@@ -40,8 +40,6 @@ If the substring cannot be found, it is not an error condition. However, if the 
 - Chars can also be assigned from a string variable and an index value.
 
 **Ex:**  myChar := myText[myInt];
-
-
 
 - A function call is a call made to one of the predefined (built in) functions of the language. The predefined functions are as follows:
 
@@ -61,8 +59,6 @@ asText(myString): returns myString as an int
 
 <a name="_hlk140096407"></a>replaceChar(myText,oldChar,newChar): replaces all occurrences of oldChar in myText with newChar (character) and returns the result as a string value (so that it is assigned to newString)
 
-
-
 **Commands:**
 
 read myString from myTextFile; /\* Reads a string from a text file called myTextFile.txt Please note that there is no size limit\*/
@@ -80,7 +76,6 @@ output myText;  /\* Write myText on the screen\*/
 - Maximum identifier size is 30 characters. If you use an identifier larger than that, the lexical analyzer issues an error message.
 - TextJedi language is case sensitive, and all keywords are lower case.
 - Identifiers start with an alphabetic character (any letter) and are composed of one or more letters/digits/\_ (underscore)
-
 
 2- Integer constants
 
@@ -112,5 +107,4 @@ output myText;  /\* Write myText on the screen\*/
 
 **Project Definition:** This project is an interpreter project for the TextJedi language. Interpreter executable (TextJedi.exe) runs a TextJedi program when called with an argument that contains the filename of the code to be run. (from the operating system command prompt)
 
-Example: TextJedi myProg.tj		(.tj is just a .txt file)
-
+Example: TextJedi myProg.tj          (.tj is just a .txt file)
