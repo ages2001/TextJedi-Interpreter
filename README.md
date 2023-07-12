@@ -1,4 +1,3 @@
-# TextJedi-Interpreter
 Programming Languages Project: TextJedi Lexical Analyzer and Interpreter
 TextJedi Language is a programming language that was designed for editing text files mainly by cutting and pasting operations. (it is imaginary)
 Data Types: The only three data types in TextJedi are Strings (called as text), Chars and Integers. String constants are written “like this” and integer constants are natural (zero or positive whole) numbers.
