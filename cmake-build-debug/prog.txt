@@ -1,0 +1,73 @@
+/* Test Case: Successful Scenarios */
+
+/* Test Case 1: Variable declaration and assignment */
+new text myText;
+new int myInt;
+new text myIntText;
+myText := "Hello, world!";
+myInt := 42;
+output myText;
+myIntText := asString(myInt);
+output myIntText;
+
+/* Test Case 2: Arithmetic operations */
+new int x;
+new int y;
+new int z;
+new text zText;
+x := 10 + 5;
+y := 20 - 8;
+z := x + y;
+zText := asString(z);
+output zText;
+
+/* Test Case 3: String concatenation */
+new text str1;
+new text str2;
+new text str3;
+str1 := "Hello";
+str2 := "World";
+str3 := str1 + str2;
+output str3;
+
+/* Test Case 4: String subtraction */
+new text mainStr;
+new text subStr;
+new text subResult;
+mainStr := "Hello world";
+subStr := "wo";
+subResult := mainStr - subStr;
+output subResult;
+
+/* Test Case 5: Function calls */
+new text source;
+new text target;
+new text insertText;
+source := "This is a test string";
+target := subs(source, 5, 7); /* Extract substring "is" from source */
+output target;
+
+new int pos;
+new text posText;
+pos := locate(source, "test", 0); /* Find the position of "test" in source */
+posText := asString(pos);
+output posText;
+
+insertText := " new";
+source := insert(source, 10, insertText); /* Insert " new" at position 10 in source */
+output source;
+
+new text overrideResult;
+overrideResult := override(source, 0, "That "); /* Override the beginning of source with "That " */
+output overrideResult;
+
+/* Test Case 6: File I/O */
+new text inputFile;
+new text outputFile;
+new text readResult;
+new text temp;
+outputFile := "output.txt";
+temp := "Ege University";
+read readResult from inputFile;
+output readResult;
+write temp to outputFile;
