@@ -5,9 +5,9 @@
 #include <stdbool.h>
 
 
-const char keywords[16][9] = {"asString", "asText", "from", "input", "insert", "int", "locate",
-                              "new", "output", "override", "read", "size", "subs", "text",
-                              "to", "write"};
+const char keywords[19][12] = {"asString", "asText", "char", "from", "input", "insert", "int", "locate",
+                              "new", "output", "override", "prompt", "read", "replaceChar", "size", "subs",
+                              "text", "to", "write"};
 
 int exitProgram(int code, char *errorMsg);
 
@@ -403,11 +403,11 @@ bool isKeyword(char *word) { // checks word is a keyword
 }
 
 bool isCommandKeyword(char *word) { // checks word is a command
-    bool check = (strcmp(word, keywords[3]) == 0) ||
-                 (strcmp(word, keywords[7]) == 0) ||
+    bool check = (strcmp(word, keywords[4]) == 0) ||
                  (strcmp(word, keywords[8]) == 0) ||
-                 (strcmp(word, keywords[10]) == 0) ||
-                 (strcmp(word, keywords[15]) == 0);
+                 (strcmp(word, keywords[9]) == 0) ||
+                 (strcmp(word, keywords[12]) == 0) ||
+                 (strcmp(word, keywords[18]) == 0);
     return check;
 }
 
@@ -497,7 +497,7 @@ char callStringFunction(FILE *filePtr, char ch, char *funcName, char *strValue) 
         ch = returnIntegerValue(filePtr, ch, &numberValue);
 
         snprintf(strValue, sizeof(strValue), "%d", numberValue); // integer to string
-    } else if (strcmp(funcName, keywords[4]) == 0) { // insert
+    } else if (strcmp(funcName, keywords[5]) == 0) { // insert
         char myTextIdentifier[31], myText[10000], insertText[10000];
         int identifierIndex = -1;
         if (ch == '"')
@@ -540,7 +540,7 @@ char callStringFunction(FILE *filePtr, char ch, char *funcName, char *strValue) 
 
         if (identifierIndex != -1)
             strcpy(textValues[identifierIndex], temp);
-    } else if (strcmp(funcName, keywords[9]) == 0) { // override
+    } else if (strcmp(funcName, keywords[10]) == 0) { // override
         char myTextIdentifier[31], myText[10000], ovrText[10000];
         int identifierIndex = -1;
         if (ch == '"')
@@ -576,7 +576,7 @@ char callStringFunction(FILE *filePtr, char ch, char *funcName, char *strValue) 
 
         if (identifierIndex != -1)
             strcpy(textValues[identifierIndex], strValue);
-    } else if (strcmp(funcName, keywords[12]) == 0) { // subs
+    } else if (strcmp(funcName, keywords[15]) == 0) { // subs
         char text[10000];
         ch = returnStringValue(filePtr, ch, text);
         if (ch != ',')
@@ -627,7 +627,7 @@ char callIntFunction(FILE *filePtr, char ch, char *funcName, int *numberValue) {
             ch = fgetc(filePtr);
         } else
             ch = returnIntegerValue(filePtr, ch, numberValue);
-    } else if (strcmp(funcName, keywords[6]) == 0) { // locate
+    } else if (strcmp(funcName, keywords[7]) == 0) { // locate
         char bigText[10000], smallText[10000];
         int start;
 
@@ -648,7 +648,7 @@ char callIntFunction(FILE *filePtr, char ch, char *funcName, int *numberValue) {
         ch = returnIntegerValue(filePtr, ch, &start);
 
         *numberValue = locateFunction(bigText, smallText, start);
-    } else if (strcmp(funcName, keywords[11]) == 0) { // size
+    } else if (strcmp(funcName, keywords[14]) == 0) { // size
         char text[10000];
         ch = returnStringValue(filePtr, ch, text);
         *numberValue = strlen(text);
@@ -701,7 +701,7 @@ char callCharFunction(FILE *filePtr, char ch, char *strValue) { // run char func
 }
 
 char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
-    if (strcmp(word, keywords[3]) == 0) { // input
+    if (strcmp(word, keywords[4]) == 0) { // input
         char identifier[31];
         ch = parseWord(filePtr, ch, identifier);
 
@@ -716,7 +716,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
         char promptKeyword[31];
         ch = parseWord(filePtr, ch, promptKeyword);
 
-        if (strcmp(promptKeyword, "prompt") == 0) {
+        if (strcmp(promptKeyword, keywords[11]) == 0) {
             if (isSpace(ch) || ch == '/')
                 ch = spaceAndCommentOperations(1, filePtr, ch);
 
@@ -758,7 +758,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
                 exitProgram(-1, "Syntax error!");
         } else
             exitProgram(-1, "Invalid 'input' keyword usage!");
-    } else if (strcmp(word, keywords[7]) == 0) { // new
+    } else if (strcmp(word, keywords[8]) == 0) { // new
         char dataType[31];
         ch = parseWord(filePtr, ch, dataType);
 
@@ -766,7 +766,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
             ch = spaceAndCommentOperations(1, filePtr, ch);
 
         if (isalpha(ch) != 0) {
-            if (strcmp(dataType, "text") == 0) { // if data type is text (string)
+            if (strcmp(dataType, keywords[16]) == 0) { // if data type is text (string)
                 char identifier[31];
                 ch = parseWord(filePtr, ch, identifier);
                 if (ch < 0)
@@ -776,7 +776,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
                         isCharIdentifier(identifier) != -1) {
                     printf("Repeating identifier: %s\n", identifier);
                     exitProgram(-1, "Identifier is already created before!");
-                } else if ((strcmp(identifier, "text") == 0) || (strcmp(identifier, "int") == 0))
+                } else if ((strcmp(identifier, keywords[16]) == 0) || (strcmp(identifier, keywords[6]) == 0))
                     exitProgram(-1, "Identifier name cannot have the same name with a data type!");
 
                 textIdentifiers[textListSize] = (char *) malloc(31 * sizeof(char));
@@ -788,7 +788,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
                 strcpy(textValues[textValueListSize++], "");
 
                 textValues = (char **) realloc(textValues, (textValueListSize + 1) * sizeof(char *));
-            } else if (strcmp(dataType, "int") == 0) { // if data type is integer
+            } else if (strcmp(dataType, keywords[6]) == 0) { // if data type is integer
                 char identifier[31];
                 ch = parseWord(filePtr, ch, identifier);
 
@@ -809,7 +809,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
                 intValues[intValueListSize++] = -1;
 
                 intValues = (int *) realloc(intValues, (intValueListSize + 1) * sizeof(int));
-            } else if (strcmp(dataType, "char") == 0) {
+            } else if (strcmp(dataType, keywords[2]) == 0) {
                 char identifier[31];
                 ch = parseWord(filePtr, ch, identifier);
 
@@ -834,7 +834,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
                 exitProgram(-1, "Invalid data type!");
         } else
             exitProgram(-1, "Syntax error!");
-    } else if (strcmp(word, keywords[8]) == 0) { // output
+    } else if (strcmp(word, keywords[9]) == 0) { // output
         if (ch == '"') {
             char text[10000]; // unlimited size
             ch = parseString(filePtr, ch, text);
@@ -862,7 +862,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
             } else
                 exitProgram(-1, "Invalid identifier or text!");
         }
-    } else if (strcmp(word, keywords[10]) == 0) { // read
+    } else if (strcmp(word, keywords[12]) == 0) { // read
         char identifier[31];
         ch = parseWord(filePtr, ch, identifier);
 
@@ -883,7 +883,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
         if (isalpha(ch) == 0)
             exitProgram(-1, "Invalid file name after 'from' keyword!");
 
-        if (strcmp(fromKeyword, keywords[2]) == 0) { // verify keyword is 'from'
+        if (strcmp(fromKeyword, keywords[3]) == 0) { // verify keyword is 'from'
             char fileName[10000]; // unlimited file name character
             ch = parseWord(filePtr, ch, fileName);
 
@@ -909,7 +909,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
             fclose(readCommentFilePtr);
         } else
             exitProgram(-1, "Invalid 'read' keyword usage!");
-    } else if (strcmp(word, keywords[15]) == 0) { // write
+    } else if (strcmp(word, keywords[18]) == 0) { // write
         char printText[10000];
 
         if (ch == '"') {
@@ -939,7 +939,7 @@ char runCommand(FILE *filePtr, char ch, char *word) { // run command-keywords
         if (isalpha(ch) == 0)
             exitProgram(-1, "Invalid file name after 'from' keyword!");
 
-        if (strcmp(toKeyword, keywords[14]) == 0) { // verify keyword is 'to'
+        if (strcmp(toKeyword, keywords[17]) == 0) { // verify keyword is 'to'
             char fileName[10000]; // unlimited file name character
             ch = parseWord(filePtr, ch, fileName);
             strcat(fileName, ".txt");
@@ -1075,21 +1075,21 @@ char returnCharValue(FILE *filePtr, char ch, char *charValue) { // returns char 
 
 bool isStringFunction(char *funcName) { // checks if function is string-return function
     bool check = (strcmp(funcName, keywords[0]) == 0) ||
-                 (strcmp(funcName, keywords[4]) == 0) ||
-                 (strcmp(funcName, keywords[9]) == 0) ||
-                 (strcmp(funcName, keywords[12]) == 0);
+                 (strcmp(funcName, keywords[5]) == 0) ||
+                 (strcmp(funcName, keywords[10]) == 0) ||
+                 (strcmp(funcName, keywords[15]) == 0);
     return check;
 }
 
 bool isIntFunction(char *funcName) { // checks if function is int-return function
     bool check = (strcmp(funcName, keywords[1]) == 0) ||
-                 (strcmp(funcName, keywords[6]) == 0) ||
-                 (strcmp(funcName, keywords[11]) == 0);
+                 (strcmp(funcName, keywords[7]) == 0) ||
+                 (strcmp(funcName, keywords[14]) == 0);
     return check;
 }
 
 bool isCharFunction(char *funcName) { // checks if function is char function
-    return (strcmp(funcName, "replaceChar") == 0);
+    return (strcmp(funcName, keywords[13]) == 0);
 }
 
 char *stringSubtraction(char *str1, char *str2) { // for string subtraction
