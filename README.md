@@ -110,7 +110,7 @@ output myText;  /\* Write myText on the screen\*/
 
 **------------------------------------------------------------------------**
 
-**Project Definition:** This project is an interpreter project for the** TextJedi language. Interpreter executable (TextJedi.exe) runs a TextJedi program when called with an argument that contains the filename of the code to be run. (from the operating system command prompt)
+**Project Definition:** This project is an interpreter project for the TextJedi language. Interpreter executable (TextJedi.exe) runs a TextJedi program when called with an argument that contains the filename of the code to be run. (from the operating system command prompt)
 
 Example: TextJedi myProg.tj		(.tj is just a .txt file)
 
