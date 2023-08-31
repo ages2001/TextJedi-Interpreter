@@ -8,7 +8,7 @@ All variables should be declared before they are used. Declarations are done wit
 
 **Ex:**  new text myText;  new int myInt;  new char myChar; /\* This is a comment\*/
 
-/\* And more than one lines of code on one line is OK \*/
+/\* And more than one line of code on one line is OK \*/
 
 **Assignment, Operations and Functions:**
 
